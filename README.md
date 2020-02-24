@@ -1,7 +1,7 @@
 # m-handler
 着是一个简化版的安卓handler机制，可以实现简单的线程间通信
 ### 知识点：
-安卓handler，ThreadLocal，线程的操作方法，锁
+安卓handler，ThreadLocal，线程的操作方法，锁，数据结构
 
 ### 目标：
 理解安卓的handler机制。
