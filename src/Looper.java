@@ -6,7 +6,8 @@ public class Looper {
         return sThreadLocal.get();
     }
     Thread currantThread;
-    volatile ArrayDeque<Message> queue = new ArrayDeque<>();
+//    volatile ArrayDeque<Message> queue = new ArrayDeque<>();
+    volatile MessageQueue queue = new MessageQueue();    
     static public void prepare(){
         if(sThreadLocal.get()!=null){
             throw new RuntimeException("一个线程只能有一个looper");
