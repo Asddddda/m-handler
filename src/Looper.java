@@ -7,11 +7,12 @@ public class Looper {
     }
     Thread currantThread;
 //    volatile ArrayDeque<Message> queue = new ArrayDeque<>();
-    volatile MessageQueue queue = new MessageQueue();    
+    volatile MessageQueue queue = new MessageQueue();
     static public void prepare(){
         if(sThreadLocal.get()!=null){
             throw new RuntimeException("一个线程只能有一个looper");
         }
+        System.out.println("开始获取Looper");
         sThreadLocal.set(new Looper());
         sThreadLocal.get().currantThread = Thread.currentThread();
     }
@@ -19,11 +20,19 @@ public class Looper {
     static public void loop(){
         while (true){
             if(!sThreadLocal.get().queue.isEmpty()){
-                Message message;
-                synchronized (sThreadLocal.get().queue) {
-                    message = sThreadLocal.get().queue.poll();
+                try{
+                    Message message;
+                    synchronized (sThreadLocal.get().queue) {
+                        message = sThreadLocal.get().queue.poll();
+                        //获取message对象
+                    }
+                    message.handler.handleMessage(message);
+                    //handle message对象
+                    System.out.println("Handler data: "+message.mData);
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    return;
                 }
-                message.handler.handleMessage(message);
             }else {
                 //sleep
                 try {
@@ -35,7 +44,6 @@ public class Looper {
                 }
             }
             System.out.println("loop");
-
         }
     }
 
